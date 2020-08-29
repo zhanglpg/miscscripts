@@ -1,3 +1,4 @@
+#!/bin/bash
 #Convert ".ape or .flac" to ".mp3 or .ogg", using 
 # 
 # TOOLS: mp3split, lame, ffmpeg, flac
@@ -83,9 +84,9 @@ do
   ;;
   d)    dflag=" -d $OPTARGS "
   ;;
-  ?) printf ${green}"Usage: %s: [-i input_format] [-o output format] \n" $(basename $0) &gt;&amp;2
-  printf ${green}"input format supported are: flac, ape or all (default) \n" $(basename $0) &gt;&amp;2
-  printf ${green}"out format supported are: mp3 (default), ogg \n" $(basename $0) &gt;&amp;2
+  ?) printf ${green}"Usage: %s: [-i input_format] [-o output format] \n" $(basename $0) >&2
+  printf ${green}"input format supported are: flac, ape or all (default) \n" $(basename $0) >&2
+  printf ${green}"out format supported are: mp3 (default), ogg \n" $(basename $0) >&2
   ee 2
   ;;
   esac
@@ -238,12 +239,12 @@ cueape()
  fi 
 
  #Checking for the output folder. If it's not there I create it
- [ ! -d "$based/$bnm" ] &amp;&amp; mkdir "$based/$bnm" 
+ [ ! -d "$based/$bnm" ] && mkdir "$based/$bnm" 
  cp -f "$2" "$based/$bnm/" 
 
  convertd="$(dirname "$1")/converted"
 
- [ ! -d "$convertd" ] &amp;&amp; mkdir "$convertd"  
+ [ ! -d "$convertd" ] && mkdir "$convertd"  
 
  #Decompress
  echo -en "\nCueape 0.1\n\n"
