@@ -36,12 +36,37 @@
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-# usage:  inputoption outputoption 
-#
 e() { echo -e "$@";tput sgr0; }
 red="\033[31m"
 green="\033[32m"
 nt="\033[0m"
+
+_usage="1. Processes files in current directory and its sub-dirs recursively, (excluding those under */converted/)
+2. accepts input format : (1) ape, (2) flac, (3) wav ;
+   must have a .cue file
+3. tags transferred
+4. works on linux with bash shell.
+5. usage  
+splitter.sh -i ape|wav|flac|all -o flac|mp3|ogg [ -d output_dir] 
+
+Make sure you have the .cue file with the same base name as the audio file to be splitted.
+For example, if the audio file to be procossed is named my_audio.wav, make sure the cue file
+is named my_audio.wav.cue.
+
+If the destination dir is not specified, the splitted files will be saved to a sub dir under current working directory using the base name of the original file.
+What is needed to run this script?
+To be able to decompress ‘ape’ file, you need to have ffmpeg installed,
+For Ubuntu users, you can install it by
+sudo apt-get install ffmpeg
+To be able to decompress 'flac' file, you need to have flacinstalled,
+You can also install it by typing
+sudo apt-get install ffmpeg
+in Ubuntu.
+To generate mp3 outputs, you will need to install 'lame' and 'mp3splt',
+for 'ogg' output, you will need 'oggenc' and 'mp3splt'.
+While for generating flac, you will need 'flac' and 'shnsplit' (in package 'shntool')
+so to simplify things, you can install all of them for Ubuntu by typing the following
+sudo apt-get install ffmpeg flac shntool oggenc cuetag mp3splt lame”
 
 clear
 
@@ -87,6 +112,7 @@ do
   ?) printf ${green}"Usage: %s: [-i input_format] [-o output format] \n" $(basename $0) >&2
   printf ${green}"input format supported are: flac, ape or all (default) \n" $(basename $0) >&2
   printf ${green}"out format supported are: mp3 (default), ogg \n" $(basename $0) >&2
+  echo ${green}"$_usage" >&2
   ee 2
   ;;
   esac
