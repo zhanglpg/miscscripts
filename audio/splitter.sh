@@ -41,7 +41,8 @@ red="\033[31m"
 green="\033[32m"
 nt="\033[0m"
 
-_usage="1. Processes files in current directory and its sub-dirs recursively, (excluding those under */converted/)
+_usage="
+1. Processes files in current directory and its sub-dirs recursively, (excluding those under */converted/)
 2. accepts input format : (1) ape, (2) flac, (3) wav ;
    must have a .cue file
 3. tags transferred
@@ -66,7 +67,7 @@ To generate mp3 outputs, you will need to install 'lame' and 'mp3splt',
 for 'ogg' output, you will need 'oggenc' and 'mp3splt'.
 While for generating flac, you will need 'flac' and 'shnsplit' (in package 'shntool')
 so to simplify things, you can install all of them for Ubuntu by typing the following
-sudo apt-get install ffmpeg flac shntool oggenc cuetag mp3splt lame”
+sudo apt-get install ffmpeg flac shntool oggenc cuetag mp3splt lame"
 
 clear
 
@@ -112,7 +113,7 @@ do
   ?) printf ${green}"Usage: %s: [-i input_format] [-o output format] \n" $(basename $0) >&2
   printf ${green}"input format supported are: flac, ape or all (default) \n" $(basename $0) >&2
   printf ${green}"out format supported are: mp3 (default), ogg \n" $(basename $0) >&2
-  echo ${green}"$_usage" >&2
+  printf ${green}"$_usage" >&2
   ee 2
   ;;
   esac
