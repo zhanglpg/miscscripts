@@ -1,0 +1,77 @@
+name: Audio Splitter Tests
+
+on:
+  push:
+    branches: [master, main, 'claude/**']
+  pull_request:
+    branches: [master, main]
+
+jobs:
+  unit-tests:
+    name: Unit Tests (no external tools)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run unit tests
+        run: |
+          bash audio/tests/test_arg_parsing.sh
+          bash audio/tests/test_dependency_check.sh
+          bash audio/tests/test_convertfile.sh
+
+  integration-tests:
+    name: Integration Tests (with media tools)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install audio processing tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            ffmpeg \
+            flac \
+            lame \
+            mp3splt \
+            vorbis-tools \
+            shntool \
+            cuetools
+
+      - name: Verify tool installation
+        run: |
+          echo "Checking installed tools..."
+          for tool in ffmpeg flac lame mp3splt oggenc cuetag shnsplit; do
+            if command -v "$tool" &>/dev/null; then
+              echo "  $tool: OK"
+            else
+              echo "  $tool: MISSING"
+              exit 1
+            fi
+          done
+
+      - name: Run integration tests (cueape pipeline)
+        run: bash audio/tests/test_cueape.sh
+
+      - name: Run media integration tests
+        run: bash audio/tests/test_media_integration.sh
+
+  all-tests:
+    name: Full Test Suite
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install audio processing tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            ffmpeg \
+            flac \
+            lame \
+            mp3splt \
+            vorbis-tools \
+            shntool \
+            cuetools
+
+      - name: Run full test suite
+        run: bash audio/tests/run_tests.sh

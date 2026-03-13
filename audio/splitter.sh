@@ -81,16 +81,16 @@ ee() {
 
 
 
-testinstall() 
+testinstall()
 {
- if(test -x `whereis -b $1|sed -e 's/[^*]*\:\ //'|sed -e 's/\ [^*]*//'`)
- then  
+ if command -v "$1" &>/dev/null
+ then
   e ${green}"$1: found"${nt}
   return 0
- else  
+ else
   e ${red}"$1: not found"${nt}
   e ${red}"exit..."${nt}
-  return  1 
+  return  1
  fi
 }
 
@@ -191,9 +191,7 @@ convertfile()
  fi
  e ${green}"continue conversion"${nt}
  bnm="$(basename "$1")"
- bnm="${bnm%.[aA][pP][eE]}"
- bnm="${bnm%.[fF][lL][aA][cC]}"
- 
+
  ebnm="$(printf "%q" "$bnm")"
  found="0"
  find -type f -name "$ebnm.[cC][uU][eE]" | while read fn ; do 
@@ -335,7 +333,7 @@ cueape()
    cp "$convertd/${tm}.ogg" "/tmp/cueape$$/$tm.ogg"
   else
    out="$(oggenc -q 6 -o "/tmp/cueape$$/$tm.ogg" "$convertd/${tm}.wav")"
-   mv "/tmp/cueape$$/$tm.ogg" "$convertd/${tm}.ogg"
+   cp "/tmp/cueape$$/$tm.ogg" "$convertd/${tm}.ogg"
    echo -en "\033[1;32m\nReencoding finished\n"
   fi
   e ${green}"Splitting\n\n"${nt}
