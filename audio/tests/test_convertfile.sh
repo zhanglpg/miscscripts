@@ -100,7 +100,7 @@ create_fake_deps
 mkdir -p album
 # Create a fake .flac file (just needs to exist for discovery test)
 generate_wav_raw "album/test_album.flac" 4410
-generate_cue_single "album/test_album.cue" "test_album.flac"
+generate_cue_single "album/test_album.flac.cue" "test_album.flac"
 output=$(run_splitter -i flac -o mp3)
 ec=$?
 assert_output_contains "$output" "converting file"
