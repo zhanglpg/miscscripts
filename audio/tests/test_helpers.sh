@@ -33,6 +33,10 @@ setup_test_dir() {
 
 teardown_test_dir() {
     cd "$ORIG_DIR"
+    if [ -n "${SAVED_PATH:-}" ]; then
+        export PATH="$SAVED_PATH"
+        SAVED_PATH=""
+    fi
     rm -rf "$TEST_DIR"
 }
 
@@ -45,7 +49,20 @@ create_fake_deps() {
         printf '#!/bin/bash\nexit 0\n' > "$FAKE_BIN/$tool"
         chmod +x "$FAKE_BIN/$tool"
     done
-    export PATH="$FAKE_BIN:$PATH"
+    # Symlink essential system utilities into FAKE_BIN so we can
+    # restrict PATH to *only* FAKE_BIN. This ensures remove_fake_dep
+    # truly hides tools from command -v (no fallthrough to /usr/bin).
+    local util real_path
+    for util in bash env tput clear find basename dirname \
+                mkdir cp mv rm ln sed cat dd head tail stat \
+                grep wc sort readlink chmod mktemp touch tr cut; do
+        real_path="$(command -v "$util" 2>/dev/null)" || true
+        if [ -n "$real_path" ] && [ ! -e "$FAKE_BIN/$util" ]; then
+            ln -s "$real_path" "$FAKE_BIN/$util"
+        fi
+    done
+    SAVED_PATH="$PATH"
+    export PATH="$FAKE_BIN"
 }
 
 remove_fake_dep() {
