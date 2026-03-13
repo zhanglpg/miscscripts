@@ -88,7 +88,7 @@ ec=$?
 assert_output_contains "$output" "output format is flac"
 teardown_test_dir
 
-# --- Test: invalid -i value (single char, caught by case ?) ---
+# --- Test: invalid -i value (single char) ---
 CURRENT_TEST="invalid -i single-char value exits non-zero"
 setup_test_dir
 create_fake_deps
@@ -97,11 +97,29 @@ ec=$?
 assert_exit_code 1 $ec
 teardown_test_dir
 
-# --- Test: invalid -o value (single char, caught by case ?) ---
+# --- Test: invalid -i value (multi char) ---
+CURRENT_TEST="invalid -i multi-char value exits non-zero"
+setup_test_dir
+create_fake_deps
+output=$(run_splitter -i xyz -o mp3)
+ec=$?
+assert_exit_code 1 $ec
+teardown_test_dir
+
+# --- Test: invalid -o value (single char) ---
 CURRENT_TEST="invalid -o single-char value exits non-zero"
 setup_test_dir
 create_fake_deps
 output=$(run_splitter -i wav -o x)
+ec=$?
+assert_exit_code 1 $ec
+teardown_test_dir
+
+# --- Test: invalid -o value (multi char) ---
+CURRENT_TEST="invalid -o multi-char value exits non-zero"
+setup_test_dir
+create_fake_deps
+output=$(run_splitter -i wav -o aac)
 ec=$?
 assert_exit_code 1 $ec
 teardown_test_dir

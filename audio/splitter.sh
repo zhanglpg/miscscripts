@@ -108,7 +108,7 @@ do
   o) oflag=1
   oval="$OPTARG"
   ;;
-  d)    dflag=" -d $OPTARGS "
+  d)    dflag=" -d $OPTARG "
   ;;
   ?) printf ${green}"Usage: %s: [-i input_format] [-o output format] \n" $(basename $0) >&2
   printf ${green}"input format supported are: flac, ape or all (default) \n" $(basename $0) >&2
@@ -121,12 +121,12 @@ done
 
 if [ "$iflag" ]; then 
  case $ival in
- ape|flac|wav|all) 
- #all) 
-  e ${green}"input format is $ival "${nt} 
+ ape|flac|wav|all)
+ #all)
+  e ${green}"input format is $ival "${nt}
   ;;
- ?) 
-  e ${red}"invalid argument $ival for -i "${nt} 
+ *)
+  e ${red}"invalid argument $ival for -i "${nt}
   ee 1
   ;;
  esac 
@@ -144,10 +144,10 @@ fi
 
 if [ "$oflag" ]; then 
  case $oval in
- mp3|ogg|flac) 
+ mp3|ogg|flac)
   e ${green}"output format is $oval "${nt}
   ;;
- ?) 
+ *)
   e ${red}"invalid argument $oval for -o "${nt}
   ee 1
   ;;
@@ -217,7 +217,7 @@ cueape()
 
 
  case "$1" in
- *.[aA][pP][eE] | *[fF][lL][aA][cC] | *.[wW][aA][vV] )
+ *.[aA][pP][eE] | *.[fF][lL][aA][cC] | *.[wW][aA][vV] )
   if [ ! -f "$1" ] ; then
    e ${red}"Input file $1 doesn't exist"${nt}
    return 1
@@ -396,7 +396,7 @@ cueape()
   ;;
  esac
  
- cd "$oldir"
+ cd "$olddir"
  e  ${green}"Processing finished successfully\n"${nt}
 
  return 0
