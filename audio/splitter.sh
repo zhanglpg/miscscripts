@@ -81,16 +81,16 @@ ee() {
 
 
 
-testinstall() 
+testinstall()
 {
- if(test -x `whereis -b $1|sed -e 's/[^*]*\:\ //'|sed -e 's/\ [^*]*//'`)
- then  
+ if command -v "$1" &>/dev/null
+ then
   e ${green}"$1: found"${nt}
   return 0
- else  
+ else
   e ${red}"$1: not found"${nt}
   e ${red}"exit..."${nt}
-  return  1 
+  return  1
  fi
 }
 
