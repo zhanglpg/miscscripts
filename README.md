@@ -37,8 +37,11 @@ sudo apt-get install ffmpeg flac lame mp3splt vorbis-tools cuetools shntool
 ### Usage
 
 ```bash
-./audio/splitter.sh [-i <input_format>] [-o <output_format>] [-d <output_dir>] <path>
+cd /path/to/music
+./audio/splitter.sh [-i <input_format>] [-o <output_format>] [-d <output_dir>]
 ```
+
+The script recursively processes files in the **current working directory**.
 
 **Options:**
 
@@ -52,13 +55,15 @@ sudo apt-get install ffmpeg flac lame mp3splt vorbis-tools cuetools shntool
 
 ```bash
 # Convert all supported files in current directory to MP3
-./audio/splitter.sh .
+./audio/splitter.sh
 
 # Convert FLAC albums to OGG
-./audio/splitter.sh -i flac -o ogg /path/to/music
+cd /path/to/music
+./audio/splitter.sh -i flac -o ogg
 
 # Convert APE files to FLAC, output to specific directory
-./audio/splitter.sh -i ape -o flac -d /output/dir /path/to/albums
+cd /path/to/albums
+./audio/splitter.sh -i ape -o flac -d /output/dir
 ```
 
 ## Tests
